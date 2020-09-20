@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(".chk").click(function () {
+                    var txt = "";
+                    $(".chk:checked").each(function () {
+                        txt += $(this).val() + ",";
+                    });
+                    txt = txt.substring(0, txt.length - 1);
+                    $("#txtvalues").val(txt);
+                });
+            });
+        </script>
+        <title>Multiple Selected Checkbox Values Insert</title>
+    </head>
+    <body>
+        <h1>How To Insert Multiple Selected Checkbox Values Into db.sqlite3</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            <span>Courses: </span>
+            <input type="checkbox" value="Python" class="chk" />Python <input type="checkbox" value="Js" class="chk" />Js <input type="checkbox" value="Django" class="chk" />Django
+            <hr />
+            <input type="text" name="coursename" id="txtvalues" />
+            <input id="btn" type="submit" value="저장" onclick="return alert('저장완료!!')" />
+        </form>
+    </body>
+</html>
