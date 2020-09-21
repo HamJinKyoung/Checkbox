@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <title>myproject</title>
+    </head>
+    <body>
+        <h1>체크박스로 옵션을 선택하면 선택한 옵션과 옵션포함 총가격을 보여줘보자!</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            {% for option in options.all %}
+            <label for="{{ option.id }}">{{ option.option_name }}({{ option.option_price }}원)</label>
+            <input type="checkbox" value="{{ option.option_name }}" class="optioncheckbox" id="{{ option.id }}">{{ option.name }}</input>
+            {% endfor %}
+            <label for="optionnames">선택한 옵션: </label>
+            <input type="text" name="optionlist" id="optionnames">
+            <label for="ototal">가격: </label>
+            <input type="text" id="ototal">
+            <input type="submit" value="담기" onclick="return alert('선택한 옵션을 바구니에 담았습니다!! 바구니를 확인해주세요 :)')" />
+        </form>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(".optioncheckbox").click(function () {
+                    var txt = "";
+                    var price = 0;
+                    $(".optioncheckbox:checked").each(function () {
+                        txt += $(this).val() + ",";
+                    });
+                    txt = txt.substring(0, txt.length - 1);
+                    $("#optionnames").val(txt);
+                    $("#ototal").val(price);
+                });
+            });
+        </script>
+    </body>
+</html>
