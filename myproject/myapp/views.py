@@ -8,7 +8,7 @@ def index(request):
         if request.POST.get('optionlist'):
             basket=Basket()
             basket.option_list = request.POST.get('optionlist')
-            basket.ototal_price = 0 # 임시로 0, 가격은 나중에 구현
+            basket.ototal_price = request.POST['ototal']
             basket.save()
             return render(request, 'index.html', {'options':options})
     else:

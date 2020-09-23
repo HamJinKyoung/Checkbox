@@ -11,14 +11,22 @@
 
         <form method="POST">
             {% csrf_token %}
+            <table>
             {% for option in options.all %}
-            <label for="{{ option.id }}">{{ option.option_name }}({{ option.option_price }}원)</label>
-            <input type="checkbox" value="{{ option.option_name }}" class="optioncheckbox" id="{{ option.id }}">{{ option.name }}</input>
+            <tr>
+                <!-- <td id="option_id" hidden>{{ option.id }}</td> -->
+                <td id="option_name">{{ option.option_name }}</td>
+                <td id="option_price">{{ option.option_price }}원 </td>
+                <td><input type="checkbox" class="optioncheckbox" value="{{ option.id }}"></input></td>
+            </tr>
+            <!-- <label for="{{ option.id }}">{{ option.option_name }}({{ option.option_price }}원)</label> -->
+            <!-- <input type="checkbox" value="{{ option.id }}" class="optioncheckbox" id="{{ option.id }}">{{ option.name }}</input> -->
             {% endfor %}
+        </table>
             <label for="optionnames">선택한 옵션: </label>
             <input type="text" name="optionlist" id="optionnames">
             <label for="ototal">가격: </label>
-            <input type="text" id="ototal">
+            <input type="text" name="ototal" id="ototal">
             <input type="submit" value="담기" onclick="return alert('선택한 옵션을 바구니에 담았습니다!! 바구니를 확인해주세요 :)')" />
         </form>
 
@@ -29,7 +37,12 @@
                     var txt = "";
                     var price = 0;
                     $(".optioncheckbox:checked").each(function () {
-                        txt += $(this).val() + ",";
+                        var tr = $(this).parent().parent();
+                        var td = tr.children();
+                        var option_name = td.eq(0).text();
+                        var option_price = parseInt(td.eq(1).text());
+                        txt += option_name+",";
+                        price += option_price;
                     });
                     txt = txt.substring(0, txt.length - 1);
                     $("#optionnames").val(txt);
